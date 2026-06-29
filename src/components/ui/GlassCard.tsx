@@ -65,27 +65,25 @@ export function ProgressBar({
   return (
     <div className={`relative h-2 rounded-full overflow-hidden bg-white/5 ${className}`}>
       <motion.div
-        className="absolute inset-y-0 left-0 rounded-full"
+        className="absolute inset-y-0 left-0 rounded-full overflow-hidden"
         style={{ 
-          background: 'linear-gradient(90deg, rgba(56, 189, 248, 0.85), rgba(45, 212, 191, 0.85), rgba(56, 189, 248, 0.85))',
-          backgroundSize: '200% 100%'
+          background: 'linear-gradient(90deg, rgba(56, 189, 248, 0.9), rgba(45, 212, 191, 0.9))',
         }}
         initial={{ width: 0 }}
-        animate={{ 
-          width: `${Math.min(100, Math.max(0, value))}%`,
-          backgroundPosition: ['200% center', '-200% center']
-        }}
-        transition={{
-          width: { type: 'spring', stiffness: 80, damping: 20 },
-          backgroundPosition: { duration: 5, repeat: Infinity, ease: 'linear' }
-        }}
-      />
-      <motion.div 
-        className="absolute inset-y-0 left-0 rounded-full bg-white opacity-20 mix-blend-overlay"
-        animate={{ opacity: [0.1, 0.4, 0.1] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-        style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
-      />
+        animate={{ width: `${Math.min(100, Math.max(0, value))}%` }}
+        transition={{ type: 'spring', stiffness: 80, damping: 20 }}
+      >
+        {/* Fluid moving shimmer overlay */}
+        <motion.div
+          className="absolute inset-0 w-full h-full"
+          style={{
+            background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%)',
+            backgroundSize: '200% 100%',
+          }}
+          animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+        />
+      </motion.div>
     </div>
   );
 }
