@@ -56,29 +56,20 @@ export function DayColumn({ day, date }: DayColumnProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: { mon: 0, tue: 0.05, wed: 0.1 }[day] }}
     >
-      <div
-        className={`text-center mb-3 pb-2 ${
-          isToday
-            ? 'border-b-2 border-b-white/20'
-            : 'border-b border-b-white/5'
-        }`}
-      >
-        <p
-          className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/30 mb-1"
-        >
-          {DAY_NAMES[day].substring(0, 3)}
-        </p>
-        <p
-          className={`text-xs font-medium ${
-            isToday ? 'text-white/70' : 'text-white/30'
-          }`}
-        >
-          {format(date, 'MMM d')}
-        </p>
-        {sessions.length > 0 && doneCount > 0 && (
-          <p className="text-[10px] text-green-400/60 mt-0.5 font-medium">
-            {doneCount}/{sessions.length} done
-          </p>
+      <div className="flex items-center justify-between mb-5 bg-white/5 p-3 rounded-2xl border border-white/5">
+        <div>
+          <p className="text-sm font-bold text-white/80 tracking-wide uppercase">{DAY_NAMES[day]}</p>
+          <p className="text-xs font-medium text-white/40">{format(date, 'MMM d')}</p>
+        </div>
+        {sessions.length > 0 ? (
+          <div className="flex items-center gap-3">
+            <div className="text-right">
+              <p className="text-sm font-bold text-white/90">{doneCount} <span className="text-white/40">/ {sessions.length}</span></p>
+              <p className="text-[10px] font-semibold text-teal-400/80 uppercase tracking-wider">{sessions.length - doneCount} remaining</p>
+            </div>
+          </div>
+        ) : (
+          <p className="text-[11px] text-white/30 uppercase tracking-wider font-semibold">Free Day</p>
         )}
       </div>
 
@@ -88,7 +79,7 @@ export function DayColumn({ day, date }: DayColumnProps) {
             No classes
           </p>
         )}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 grid-flow-row-dense">
           {sessions.map((session) => (
             <ClassCard
               key={session.id}

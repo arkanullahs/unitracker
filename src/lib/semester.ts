@@ -82,3 +82,25 @@ export function getWeekDateRange(weekStart: Date): string {
 export function formatDateISO(date: Date): string {
   return format(date, 'yyyy-MM-dd');
 }
+
+export function getRemainingClassesForCourse(
+  courseId: string,
+  completions: Record<string, boolean>,
+  schedule: Array<{ id: string; courseId: string; weekPattern: 'all' | 'odd' | 'even' }>
+): number {
+  let total = 0;
+  for (const s of schedule) {
+    if (s.courseId === courseId) {
+      total += (s.weekPattern === 'all' ? 14 : 7);
+    }
+  }
+
+  const completed = Object.entries(completions).filter(([key, val]) => {
+    if (!val) return false;
+    const sessionId = key.split('__')[1];
+    const session = schedule.find(s => s.id === sessionId);
+    return session?.courseId === courseId;
+  }).length;
+
+  return Math.max(0, total - completed);
+}

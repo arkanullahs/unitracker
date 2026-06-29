@@ -5,8 +5,9 @@ import { Check } from 'lucide-react';
 import { COURSES, type CourseId } from '@/config/courses';
 import type { ScheduledSession } from '@/config/schedule';
 import { useStore } from '@/lib/store';
-import { makeKey } from '@/lib/semester';
+import { makeKey, getRemainingClassesForCourse } from '@/lib/semester';
 import { playSuccessSound } from '@/lib/sound';
+import { SCHEDULE } from '@/config/schedule';
 
 interface ClassCardProps {
   session: ScheduledSession;
@@ -19,6 +20,9 @@ export function ClassCard({ session, date }: ClassCardProps) {
   const course = COURSES[session.courseId];
   const key = makeKey(date, session.id);
   const isCompleted = completions[key] === true;
+  const isLab = session.type === 'lab';
+  
+  const remainingTotal = getRemainingClassesForCourse(session.courseId, completions, SCHEDULE);
 
   const handleClick = () => {
     if (!isCompleted) {
@@ -30,7 +34,7 @@ export function ClassCard({ session, date }: ClassCardProps) {
   return (
     <motion.button
       onClick={handleClick}
-      className="w-full text-left glass-card p-3 flex flex-col justify-between cursor-pointer relative overflow-hidden group transition-all duration-300"
+      className={`w-full text-left glass-card p-4 flex flex-col justify-between cursor-pointer relative overflow-hidden group transition-all duration-300 ${isLab ? 'row-span-2 min-h-[150px]' : 'row-span-1 min-h-[100px]'}`}
       style={{ 
         background: isCompleted 
           ? 'rgba(255, 255, 255, 0.02)' 
@@ -50,17 +54,22 @@ export function ClassCard({ session, date }: ClassCardProps) {
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
     >
       <div className="flex flex-col gap-2">
-        <div 
-          className="w-8 h-8 rounded-lg flex items-center justify-center mb-1 shadow-inner"
-          style={{ 
-            backgroundColor: isCompleted ? 'rgba(255,255,255,0.05)' : `${course.color}30`,
-            color: isCompleted ? 'rgba(255,255,255,0.2)' : course.color
-          }}
-        >
-          <span className="font-bold text-[10px] tracking-wider">{session.courseId.toUpperCase()}</span>
+        <div className="flex items-center justify-between w-full">
+          <div 
+            className="w-8 h-8 rounded-lg flex items-center justify-center shadow-inner"
+            style={{ 
+              backgroundColor: isCompleted ? 'rgba(255,255,255,0.05)' : `${course.color}30`,
+              color: isCompleted ? 'rgba(255,255,255,0.2)' : course.color
+            }}
+          >
+            <span className="font-bold text-[10px] tracking-wider">{session.courseId.toUpperCase()}</span>
+          </div>
+          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${isCompleted ? 'bg-white/5 text-white/20' : 'bg-white/10 text-white/50'}`}>
+            {remainingTotal} LEFT
+          </span>
         </div>
         <span
-          className={`text-sm font-semibold break-words whitespace-normal leading-tight ${
+          className={`text-sm font-semibold break-words whitespace-normal leading-tight mt-1 ${
             isCompleted
               ? 'line-through text-white/30'
               : 'text-white/90'
