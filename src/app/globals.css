@@ -2,9 +2,9 @@
 
 :root {
   --glass-bg: rgba(255, 255, 255, 0.055);
-  --glass-blur: blur(24px) saturate(160%);
-  --glass-border: rgba(255, 255, 255, 0.09);
-  --glass-shadow-outer: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --glass-blur: blur(24px) saturate(120%);
+  --glass-border: rgba(255, 255, 255, 0.07);
+  --glass-shadow-outer: 0 8px 32px rgba(0, 0, 0, 0.25);
   --glass-shadow-inner-top: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   --glass-shadow-inner-bottom: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
@@ -19,7 +19,7 @@ html {
 }
 
 body {
-  background: #0a0a0a;
+  background: #0f172a;
   min-height: 100vh;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
