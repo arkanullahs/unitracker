@@ -15,7 +15,7 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    await kv.set(KV_KEY, JSON.stringify(body));
+    await kv.set(KV_KEY, body);
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ ok: false }, { status: 500 });

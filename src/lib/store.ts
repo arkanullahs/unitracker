@@ -65,31 +65,7 @@ export interface AppState {
   toKVPayload: () => { completions: Record<string, boolean>; assessments: Assessment[]; labProjects: LabProject[] };
 }
 
-const kvStorage = {
-  getItem: async (): Promise<string | null> => {
-    try {
-      const res = await fetch('/api/kv');
-      if (!res.ok) return null;
-      return JSON.stringify(await res.json());
-    } catch {
-      return null;
-    }
-  },
-  setItem: async (_key: string, value: string): Promise<void> => {
-    try {
-      await fetch('/api/kv', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: value,
-      });
-    } catch {}
-  },
-  removeItem: async (): Promise<void> => {
-    try {
-      await fetch('/api/kv', { method: 'DELETE' });
-    } catch {}
-  },
-};
+
 
 export const useStore = create<AppState>()(
   persist(
@@ -219,7 +195,6 @@ export const useStore = create<AppState>()(
     }),
     {
       name: 'final-tracker-store',
-      storage: createJSONStorage(() => kvStorage),
     }
   )
 );
