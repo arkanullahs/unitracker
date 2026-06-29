@@ -46,7 +46,7 @@ export function Header({
       <div className="flex items-center justify-between mb-2">
         <div>
           <h1 className="text-[22px] font-bold text-white leading-tight">
-            Final Tracker
+            Final Journey
           </h1>
           {weekNum && (
             <p className="text-[11px] font-semibold uppercase tracking-widest text-white/30 mt-0.5">
