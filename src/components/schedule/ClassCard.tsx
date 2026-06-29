@@ -30,7 +30,7 @@ export function ClassCard({ session, date }: ClassCardProps) {
   return (
     <motion.button
       onClick={handleClick}
-      className="w-full aspect-square text-left glass-card p-4 flex flex-col justify-between cursor-pointer relative overflow-hidden group transition-all duration-300"
+      className="w-full text-left glass-card p-3 flex flex-col justify-between cursor-pointer relative overflow-hidden group transition-all duration-300"
       style={{ 
         background: isCompleted 
           ? 'rgba(255, 255, 255, 0.02)' 

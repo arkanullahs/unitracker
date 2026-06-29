@@ -82,19 +82,21 @@ export function DayColumn({ day, date }: DayColumnProps) {
         )}
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-4">
         {sessions.length === 0 && (
           <p className="text-white/15 text-xs text-center py-4 italic">
             No classes
           </p>
         )}
-        {sessions.map((session) => (
-          <ClassCard
-            key={session.id}
-            session={session}
-            date={date}
-          />
-        ))}
+        <div className="grid grid-cols-2 gap-3">
+          {sessions.map((session) => (
+            <ClassCard
+              key={session.id}
+              session={session}
+              date={date}
+            />
+          ))}
+        </div>
         {todaysAssessments.length > 0 && (
           <div className="mt-2 pt-2 border-t border-white/10 flex flex-col gap-2">
             <p className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-1">Assessments</p>
