@@ -66,10 +66,25 @@ export function ProgressBar({
     <div className={`relative h-2 rounded-full overflow-hidden bg-white/5 ${className}`}>
       <motion.div
         className="absolute inset-y-0 left-0 rounded-full"
-        style={{ backgroundColor: '#a855f7' }}
+        style={{ 
+          background: 'linear-gradient(90deg, rgba(56, 189, 248, 0.85), rgba(45, 212, 191, 0.85), rgba(56, 189, 248, 0.85))',
+          backgroundSize: '200% 100%'
+        }}
         initial={{ width: 0 }}
-        animate={{ width: `${Math.min(100, Math.max(0, value))}%` }}
-        transition={{ type: 'spring', stiffness: 80, damping: 20 }}
+        animate={{ 
+          width: `${Math.min(100, Math.max(0, value))}%`,
+          backgroundPosition: ['200% center', '-200% center']
+        }}
+        transition={{
+          width: { type: 'spring', stiffness: 80, damping: 20 },
+          backgroundPosition: { duration: 5, repeat: Infinity, ease: 'linear' }
+        }}
+      />
+      <motion.div 
+        className="absolute inset-y-0 left-0 rounded-full bg-white opacity-20 mix-blend-overlay"
+        animate={{ opacity: [0.1, 0.4, 0.1] }}
+        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
       />
     </div>
   );
