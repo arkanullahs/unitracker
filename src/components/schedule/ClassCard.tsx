@@ -51,13 +51,13 @@ export function ClassCard({ session, date }: ClassCardProps) {
     >
       <div className="flex flex-col gap-2">
         <div 
-          className="w-10 h-10 rounded-xl flex items-center justify-center mb-1 shadow-inner"
+          className="w-8 h-8 rounded-lg flex items-center justify-center mb-1 shadow-inner"
           style={{ 
             backgroundColor: isCompleted ? 'rgba(255,255,255,0.05)' : `${course.color}30`,
             color: isCompleted ? 'rgba(255,255,255,0.2)' : course.color
           }}
         >
-          <span className="font-bold text-xs tracking-wider">{session.courseId.toUpperCase()}</span>
+          <span className="font-bold text-[10px] tracking-wider">{session.courseId.toUpperCase()}</span>
         </div>
         <span
           className={`text-sm font-semibold break-words whitespace-normal leading-tight ${
