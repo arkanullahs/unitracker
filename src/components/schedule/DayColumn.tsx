@@ -79,7 +79,7 @@ export function DayColumn({ day, date }: DayColumnProps) {
             No classes
           </p>
         )}
-        <div className="grid grid-cols-2 gap-3 grid-flow-row-dense">
+        <div className="flex flex-col gap-3">
           {sessions.map((session) => (
             <ClassCard
               key={session.id}

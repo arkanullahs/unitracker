@@ -34,7 +34,7 @@ export function ClassCard({ session, date }: ClassCardProps) {
   return (
     <motion.button
       onClick={handleClick}
-      className={`w-full text-left glass-card flex flex-col justify-between cursor-pointer relative overflow-hidden group transition-all duration-300 ${isLab ? 'p-4 row-span-2 min-h-[150px]' : 'p-3 col-span-2 min-h-[68px]'} `}
+      className={`w-full text-left glass-card flex flex-col justify-between cursor-pointer relative overflow-hidden group transition-all duration-300 ${isLab ? 'p-4 min-h-[150px]' : 'p-3 min-h-[68px]'} `}
       style={{ 
         background: isCompleted 
           ? 'rgba(255, 255, 255, 0.02)' 
