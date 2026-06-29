@@ -6,6 +6,7 @@ import { COURSES, type CourseId } from '@/config/courses';
 import type { ScheduledSession } from '@/config/schedule';
 import { useStore } from '@/lib/store';
 import { makeKey } from '@/lib/semester';
+import { playSuccessSound } from '@/lib/sound';
 
 interface ClassCardProps {
   session: ScheduledSession;
@@ -19,13 +20,22 @@ export function ClassCard({ session, date }: ClassCardProps) {
   const key = makeKey(date, session.id);
   const isCompleted = completions[key] === true;
 
+  const handleClick = () => {
+    if (!isCompleted) {
+      playSuccessSound();
+    }
+    toggleCompletion(key);
+  };
+
   return (
     <motion.button
-      onClick={() => toggleCompletion(key)}
-      className="w-full text-left glass-card p-3 cursor-pointer relative overflow-hidden group"
+      onClick={handleClick}
+      className="w-full aspect-square text-left glass-card p-4 flex flex-col justify-between cursor-pointer relative overflow-hidden group transition-all duration-300"
       style={{ 
-        borderLeft: `3px solid ${course.color}`,
-        background: `linear-gradient(90deg, ${course.color}15 0%, rgba(255, 255, 255, 0.02) 100%)`,
+        background: isCompleted 
+          ? 'rgba(255, 255, 255, 0.02)' 
+          : `linear-gradient(145deg, ${course.color}25 0%, rgba(255, 255, 255, 0.03) 100%)`,
+        border: `1px solid ${isCompleted ? 'rgba(255,255,255,0.05)' : `${course.color}40`}`
       }}
       whileHover={{ 
         scale: 1.02,
@@ -39,39 +49,43 @@ export function ClassCard({ session, date }: ClassCardProps) {
       }
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
     >
-      <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 mb-1">
-            <span
-              className="inline-block w-2 h-2 rounded-full flex-shrink-0"
-              style={{ backgroundColor: course.color }}
-            />
-            <span
-              className={`text-sm font-semibold break-words whitespace-normal leading-tight ${
-                isCompleted
-                  ? 'line-through text-white/30'
-                  : 'text-white/90'
-              }`}
-            >
-              {session.label}
-            </span>
-          </div>
-          <p
-            className={`text-[11px] ml-4 ${
-              isCompleted ? 'text-white/15' : 'text-white/30'
-            }`}
-          >
-            Room {session.room}
-          </p>
+      <div className="flex flex-col gap-2">
+        <div 
+          className="w-10 h-10 rounded-xl flex items-center justify-center mb-1 shadow-inner"
+          style={{ 
+            backgroundColor: isCompleted ? 'rgba(255,255,255,0.05)' : `${course.color}30`,
+            color: isCompleted ? 'rgba(255,255,255,0.2)' : course.color
+          }}
+        >
+          <span className="font-bold text-xs tracking-wider">{session.courseId.toUpperCase()}</span>
         </div>
+        <span
+          className={`text-sm font-semibold break-words whitespace-normal leading-tight ${
+            isCompleted
+              ? 'line-through text-white/30'
+              : 'text-white/90'
+          }`}
+        >
+          {session.label}
+        </span>
+      </div>
+
+      <div className="flex items-end justify-between w-full mt-2">
+        <p
+          className={`text-[11px] font-medium tracking-wide ${
+            isCompleted ? 'text-white/20' : 'text-white/50'
+          }`}
+        >
+          ROOM {session.room}
+        </p>
 
         <motion.div
-          className="flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center"
+          className="flex-shrink-0 w-6 h-6 rounded-lg border-2 flex items-center justify-center shadow-sm"
           style={{
-            borderColor: isCompleted ? '#22c55e' : 'rgba(255,255,255,0.15)',
+            borderColor: isCompleted ? '#22c55e' : 'rgba(255,255,255,0.1)',
             backgroundColor: isCompleted
               ? '#22c55e'
-              : 'transparent',
+              : 'rgba(0,0,0,0.2)',
           }}
           animate={
             isCompleted ? { scale: [0.8, 1.15, 1] } : { scale: 1 }
@@ -79,7 +93,7 @@ export function ClassCard({ session, date }: ClassCardProps) {
           transition={{ duration: 0.3 }}
         >
           {isCompleted && (
-            <Check size={12} strokeWidth={3} className="text-white" />
+            <Check size={14} strokeWidth={3} className="text-white" />
           )}
         </motion.div>
       </div>
