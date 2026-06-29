@@ -22,16 +22,22 @@ export function ClassCard({ session, date }: ClassCardProps) {
   return (
     <motion.button
       onClick={() => toggleCompletion(key)}
-      className="w-full text-left glass-card p-3 cursor-pointer relative overflow-hidden"
-      style={{ borderLeft: `3px solid ${course.color}` }}
-      whileHover={{ scale: 1.02, filter: 'brightness(1.1)' }}
+      className="w-full text-left glass-card p-3 cursor-pointer relative overflow-hidden group"
+      style={{ 
+        borderLeft: `3px solid ${course.color}`,
+        background: `linear-gradient(90deg, ${course.color}15 0%, rgba(255, 255, 255, 0.02) 100%)`,
+      }}
+      whileHover={{ 
+        scale: 1.02,
+        boxShadow: `0 8px 30px -5px ${course.color}35, 0 4px 15px -5px ${course.color}20`
+      }}
       whileTap={{ scale: 0.95 }}
       animate={
         isCompleted
           ? { opacity: 0.35, scale: 0.98 }
           : { opacity: 1, scale: 1 }
       }
-      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0 flex-1">
