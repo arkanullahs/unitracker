@@ -34,7 +34,7 @@ export function ClassCard({ session, date }: ClassCardProps) {
   return (
     <motion.button
       onClick={handleClick}
-      className={`w-full text-left glass-card flex flex-col justify-between cursor-pointer relative overflow-hidden group transition-all duration-300 ${isLab ? 'p-4 row-span-2 min-h-[150px]' : 'p-2.5 row-span-1 min-h-[76px]'} `}
+      className={`w-full text-left glass-card flex flex-col justify-between cursor-pointer relative overflow-hidden group transition-all duration-300 ${isLab ? 'p-4 row-span-2 min-h-[150px]' : 'p-3 col-span-2 min-h-[68px]'} `}
       style={{ 
         background: isCompleted 
           ? 'rgba(255, 255, 255, 0.02)' 
@@ -105,27 +105,43 @@ export function ClassCard({ session, date }: ClassCardProps) {
           </div>
         </>
       ) : (
-        // --- THEORY CARD (Slim, List-Style) ---
-        <div className="flex flex-col w-full h-full justify-center">
-          <div className="flex items-center gap-2.5 w-full">
+        // --- THEORY CARD (Full Width List Item) ---
+        <div className="flex items-center justify-between w-full h-full gap-3">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
             <div 
-              className="w-7 h-7 rounded-md flex items-center justify-center shadow-inner shrink-0"
+              className="w-8 h-8 rounded-lg flex items-center justify-center shadow-inner shrink-0"
               style={{ 
                 backgroundColor: isCompleted ? 'rgba(255,255,255,0.05)' : `${course.color}30`,
                 color: isCompleted ? 'rgba(255,255,255,0.2)' : course.color
               }}
             >
-              <span className="font-bold text-[9px] tracking-wider">{session.courseId.toUpperCase()}</span>
+              <span className="font-bold text-[10px] tracking-wider">{session.courseId.toUpperCase()}</span>
             </div>
-            <span
-              className={`text-[11px] font-semibold truncate flex-1 ${
-                isCompleted ? 'line-through text-white/30' : 'text-white/90'
-              }`}
-            >
-              {session.label}
+            
+            <div className="flex flex-col min-w-0">
+              <span
+                className={`text-[13px] font-semibold truncate ${
+                  isCompleted ? 'line-through text-white/30' : 'text-white/90'
+                }`}
+              >
+                {session.label}
+              </span>
+              <p
+                className={`text-[10px] font-medium tracking-wide mt-0.5 ${
+                  isCompleted ? 'text-white/20' : 'text-white/50'
+                }`}
+              >
+                ROOM {session.room}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0">
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/5 ${isCompleted ? 'text-white/20' : 'text-white/40'}`}>
+              {remainingTotal} LEFT
             </span>
             <motion.div
-              className="flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center shadow-sm"
+              className="flex-shrink-0 w-6 h-6 rounded-lg border-2 flex items-center justify-center shadow-sm"
               style={{
                 borderColor: isCompleted ? '#22c55e' : 'rgba(255,255,255,0.1)',
                 backgroundColor: isCompleted ? '#22c55e' : 'rgba(0,0,0,0.2)',
@@ -134,22 +150,9 @@ export function ClassCard({ session, date }: ClassCardProps) {
               transition={{ duration: 0.3 }}
             >
               {isCompleted && (
-                <Check size={12} strokeWidth={3} className="text-white" />
+                <Check size={14} strokeWidth={3} className="text-white" />
               )}
             </motion.div>
-          </div>
-
-          <div className="flex items-center justify-between w-full mt-2 pl-9 pr-1">
-            <p
-              className={`text-[9px] font-medium tracking-wide ${
-                isCompleted ? 'text-white/20' : 'text-white/50'
-              }`}
-            >
-              ROOM {session.room}
-            </p>
-            <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded bg-white/5 ${isCompleted ? 'text-white/20' : 'text-white/40'}`}>
-              {remainingTotal} LEFT
-            </span>
           </div>
         </div>
       )}
